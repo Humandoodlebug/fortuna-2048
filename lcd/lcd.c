@@ -203,7 +203,6 @@ void display_char(char c)
     */
     if (c == '\n') { 
         display.x=0; display.y+=8;
-        if (display.y >= display.height) { clear_screen(); }
         return;
     }
 

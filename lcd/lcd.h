@@ -3,6 +3,9 @@
  * Licence: This work is licensed under the Creative Commons Attribution License.
  *           View this license at http://creativecommons.org/about/licenses/
  */
+
+#ifndef _INC_LCD
+#define _INC_LCD
  
 #include <avr/io.h>
 #include <stdint.h>
@@ -51,3 +54,5 @@ void display_string_xy(char *str, uint16_t x, uint16_t y);
 void display_register(uint8_t reg);
 void display_line_h(uint16_t x, uint16_t y, uint16_t length);
 void display_line_v(uint16_t x, uint16_t y, uint16_t length);
+
+#endif
