@@ -14,12 +14,6 @@
 #include "ili934x.h"
 #include "lcd.h"
 
-#define LINE_THICKNESS 2
-#define GRID_X 55
-#define GRID_Y 40
-#define GRID_CELL 45
-#define GRID_GAP (GRID_CELL + LINE_THICKNESS)
-
 lcd display;
 
 void init_lcd()
@@ -265,15 +259,6 @@ void display_register(uint8_t reg)
 			display_char( '.' );
 		}
 	}
-}
-
-void display_grid()
-{
-    for (uint16_t y = 0; y < 5; y++)
-        display_line_h(GRID_X, GRID_Y + y * GRID_GAP, 190);
-
-    for (uint16_t x = 0; x < 5; x++)
-        display_line_v(GRID_X + x * GRID_GAP, GRID_Y, 190);
 }
 
 void display_line_h(uint16_t x, uint16_t y, uint16_t length)

@@ -3,7 +3,7 @@
 
 
 #include <avr/io.h>
-#include "lcd.h"
+#include "fortuna2048.h"
 
 
 #define BUFFSIZE 256

@@ -8,8 +8,9 @@
 #include <stdint.h>
 
 
-#define LCDWIDTH	240
-#define LCDHEIGHT	320
+#define LCDWIDTH        240
+#define LCDHEIGHT       320
+#define LINE_THICKNESS 	2
 
 /* Colour definitions RGB565 */
 #define WHITE       0xFFFF
@@ -48,4 +49,5 @@ void display_char(char c);
 void display_string(char *str);
 void display_string_xy(char *str, uint16_t x, uint16_t y);
 void display_register(uint8_t reg);
-void display_grid();
+void display_line_h(uint16_t x, uint16_t y, uint16_t length);
+void display_line_v(uint16_t x, uint16_t y, uint16_t length);
