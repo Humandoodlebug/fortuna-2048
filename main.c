@@ -18,7 +18,7 @@ void main(void)
 {
     init();
     unsigned int seed = 0;
-    while(!get_switch_press(_BV(SWN)))
+    while(!get_switch_press(_BV(SWC)))
         seed++;
 
     srand(seed);
