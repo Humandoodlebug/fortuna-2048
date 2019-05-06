@@ -58,7 +58,7 @@ void int2str(uint16_t i, char *str)
 
 uint16_t getBlockTextX(uint8_t x, uint8_t l)
 {
-    return GRID_X + (uint16_t) x * GRID_GAP + LINE_THICKNESS + (GRID_CELL - 5 * (uint16_t) l) / 2;
+    return GRID_X + (uint16_t) x * GRID_GAP + LINE_THICKNESS + (GRID_CELL - 6 * (uint16_t) l) / 2;
 }
 
 uint16_t getBlockTextY(uint8_t y)
