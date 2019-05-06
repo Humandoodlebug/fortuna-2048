@@ -22,7 +22,7 @@ uint16_t powI(uint16_t i, uint16_t j)
     return v;
 }
 
-void display_grid()
+void display_grid(grid2048 grid)
 {
     for (uint16_t y = 0; y < 5; y++)
         display_line_h(GRID_X, GRID_Y + y * GRID_GAP, 190);
@@ -32,10 +32,7 @@ void display_grid()
 
     for (uint8_t i = 0; i < 4; i++)
         for (uint8_t j = 0; j < 4; j++)
-        {
-            uint16_t v = (uint16_t) powI(2, i * j + 1);
-            draw_block(i, j, v);
-        }
+            draw_block(i, j, grid.data[i * 4 + j]);
 }
 
 void draw_block(uint8_t x, uint8_t y, uint16_t v)

@@ -13,7 +13,9 @@ void init(void);
 void main(void) 
 {
     init();
-    display_grid();
+    grid2048 grid = {{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}};
+    // grid.data = ;
+    display_grid(grid);
 }
 
 
