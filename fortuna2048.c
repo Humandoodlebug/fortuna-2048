@@ -8,11 +8,11 @@
 #define GRID_CELL 45
 #define GRID_GAP (GRID_CELL + LINE_THICKNESS)
 
-void draw_block(block b);
+void draw_block(uint8_t x, uint8_t y, uint16_t v);
 uint8_t int2strl(uint16_t i);
 void int2str(uint16_t i, char *str);
-uint16_t getBlockTextX(block b, uint8_t l);
-uint16_t getBlockTextY(block b);
+uint16_t getBlockTextX(uint8_t x, uint8_t l);
+uint16_t getBlockTextY(uint8_t y);
 
 uint16_t powI(uint16_t i, uint16_t j)
 {
@@ -33,17 +33,17 @@ void display_grid()
     for (uint8_t i = 0; i < 4; i++)
         for (uint8_t j = 0; j < 4; j++)
         {
-            block b = {i, j, (uint16_t) powI(2, i * j + 1)};
-            draw_block(b);
+            uint16_t v = (uint16_t) powI(2, i * j + 1);
+            draw_block(i, j, v);
         }
 }
 
-void draw_block(block b)
+void draw_block(uint8_t x, uint8_t y, uint16_t v)
 {
-    int l = int2strl(b.value);
+    int l = int2strl(v);
     char str[l];
-    int2str(b.value, str);
-    display_string_xy(str, getBlockTextX(b, l), getBlockTextY(b));
+    int2str(v, str);
+    display_string_xy(str, getBlockTextX(x, l), getBlockTextY(y));
 }
 
 uint8_t int2strl(uint16_t i)
@@ -56,12 +56,12 @@ void int2str(uint16_t i, char *str)
     sprintf(str, "%u", i);
 }
 
-uint16_t getBlockTextX(block b, uint8_t l)
+uint16_t getBlockTextX(uint8_t x, uint8_t l)
 {
-    return GRID_X + b.gridX * GRID_GAP + LINE_THICKNESS + (GRID_CELL - 5 * (uint16_t) l) / 2;
+    return GRID_X + (uint16_t) x * GRID_GAP + LINE_THICKNESS + (GRID_CELL - 5 * (uint16_t) l) / 2;
 }
 
-uint16_t getBlockTextY(block b)
+uint16_t getBlockTextY(uint8_t y)
 {
-    return GRID_Y + b.gridY * GRID_GAP + LINE_THICKNESS + (GRID_CELL - 7) / 2;
+    return GRID_Y + (uint16_t) y * GRID_GAP + LINE_THICKNESS + (GRID_CELL - 7) / 2;
 }
