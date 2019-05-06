@@ -15,6 +15,10 @@
 #include "lcd.h"
 
 #define LINE_THICKNESS 2
+#define GRID_X 55
+#define GRID_Y 40
+#define GRID_CELL 45
+#define GRID_GAP (GRID_CELL + LINE_THICKNESS)
 
 lcd display;
 
@@ -265,17 +269,11 @@ void display_register(uint8_t reg)
 
 void display_grid()
 {
-    display_line_h(55, 40, 190);
-    display_line_h(55, 87, 190);
-    display_line_h(55, 134, 190);
-    display_line_h(55, 181, 190);
-    display_line_h(55, 228, 190);
+    for (uint16_t y = 0; y < 5; y++)
+        display_line_h(GRID_X, GRID_Y + y * GRID_GAP, 190);
 
-    display_line_v(55, 40, 190);
-    display_line_v(102, 40, 190);
-    display_line_v(149, 40, 190);
-    display_line_v(196, 40, 190);
-    display_line_v(243, 40, 190);
+    for (uint16_t x = 0; x < 5; x++)
+        display_line_v(GRID_X + x * GRID_GAP, GRID_Y, 190);
 }
 
 void display_line_h(uint16_t x, uint16_t y, uint16_t length)
