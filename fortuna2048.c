@@ -32,7 +32,7 @@ void display_grid(grid2048 grid)
 
     for (uint8_t i = 0; i < 4; i++)
         for (uint8_t j = 0; j < 4; j++)
-            draw_block(i, j, grid.data[i * 4 + j]);
+            draw_block(j, i, grid.data[i * 4 + j]);
 }
 
 void draw_block(uint8_t x, uint8_t y, uint16_t v)
