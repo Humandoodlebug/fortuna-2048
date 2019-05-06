@@ -14,7 +14,7 @@
 #include "ili934x.h"
 #include "lcd.h"
 
-#define LINE_THICKNESS 1
+#define LINE_THICKNESS 2
 
 lcd display;
 
@@ -265,18 +265,27 @@ void display_register(uint8_t reg)
 
 void display_grid()
 {
-    display_line_h(10, 10, 100);
-    display_line_v(10, 10, 100);
+    display_line_h(55, 40, 190);
+    display_line_h(55, 87, 190);
+    display_line_h(55, 134, 190);
+    display_line_h(55, 181, 190);
+    display_line_h(55, 228, 190);
+
+    display_line_v(55, 40, 190);
+    display_line_v(102, 40, 190);
+    display_line_v(149, 40, 190);
+    display_line_v(196, 40, 190);
+    display_line_v(243, 40, 190);
 }
 
 void display_line_h(uint16_t x, uint16_t y, uint16_t length)
 {
-    rectangle rect = {x, x + length, y, y + LINE_THICKNESS};
+    rectangle rect = {x, x + length - 1, y, y + LINE_THICKNESS - 1};
     fill_rectangle(rect, WHITE);
 }
 
 void display_line_v(uint16_t x, uint16_t y, uint16_t length)
 {
-    rectangle rect = {x, x + LINE_THICKNESS, y, y + length};
+    rectangle rect = {x, x + LINE_THICKNESS - 1, y, y + length - 1};
     fill_rectangle(rect, WHITE);
 }
