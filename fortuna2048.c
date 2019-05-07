@@ -3,13 +3,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include "lcd.h"
-#include <util/delay.h>
+// #include <util/delay.h>
 
 #define GRID_X 55
 #define GRID_Y 40
 #define GRID_CELL 45
 #define GRID_GAP (GRID_CELL + LINE_THICKNESS)
-#define grid(x,y) (*(grid + 4 * (x) + (y)))
+#define grid(x,y) (grid[4 * (x) + (y)])
 
 static uint16_t *grid;
 
@@ -28,10 +28,8 @@ void init_grid()
     uint16_t pos1 = getRandomInt();
     uint16_t pos2 = getRandomInt();
     while(pos2 == pos1){pos2 = getRandomInt();} //Loop until 2 unique numbers
-    for (uint16_t i = 0; i < 16; i++)
-        *(grid + i) = i;
-    *(grid + pos1) = 2;
-    *(grid + pos2) = 2;
+    grid[pos1] = 2;
+    grid[pos2] = 2;
 }
 
 uint16_t powI(uint16_t i, uint16_t j)
@@ -66,10 +64,6 @@ void redraw_screen()
     clear_screen();
     display_grid();
     display_blocks();
-    char temp[6];
-    int2str(grid(2,2), temp);
-    temp[5] = 'a';
-    display_string_xy(temp, 0, 0);
 }
 
 void display_grid()
