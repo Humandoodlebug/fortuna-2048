@@ -5,11 +5,13 @@
 #include "lcd.h"
 // #include <util/delay.h>
 
-#define GRID_X 55
+#define GRID_X 65
 #define GRID_Y 40
 #define GRID_CELL 45
 #define GRID_GAP (GRID_CELL + LINE_THICKNESS)
-#define grid(x,y) (grid[4 * (x) + (y)])
+#define GRID_LEN 16
+#define GRID_D 4
+#define grid(x,y) (grid[GRID_D * (x) + (y)])
 
 static uint16_t *grid;
 uint16_t currentScore;
@@ -22,16 +24,12 @@ uint8_t int2strl(uint16_t i);
 void int2str(uint16_t i, char *str);
 uint16_t getBlockTextX(uint8_t x, uint8_t l);
 uint16_t getBlockTextY(uint8_t y);
-uint16_t getRandomInt();
 
 void init_grid()
 {
-    grid = calloc(16, sizeof(uint16_t));
-    uint16_t pos1 = getRandomInt();
-    uint16_t pos2 = getRandomInt();
-    while(pos2 == pos1){pos2 = getRandomInt();} //Loop until 2 unique numbers
-    grid[pos1] = 2;
-    grid[pos2] = 2;
+    grid = calloc(GRID_LEN, sizeof(uint16_t));
+    add_tile();
+    add_tile();
     currentScore = 0;
 }
 
@@ -89,8 +87,8 @@ void display_grid()
 
 void display_blocks()
 {
-    for (uint8_t i = 0; i < 4; i++)
-        for (uint8_t j = 0; j < 4; j++)
+    for (uint8_t i = 0; i < GRID_D; i++)
+        for (uint8_t j = 0; j < GRID_D; j++)
             draw_block(i, j, grid(i, j));
 }
 
@@ -129,10 +127,10 @@ uint8_t move_tiles(uint8_t direction)
     switch (direction)
     {
         case UP:
-            for (int x = 0; x < 4; x++)
+            for (int x = 0; x < GRID_D; x++)
             {
                 int newY = 0;
-                for (int y = 0; y < 4; y++)
+                for (int y = 0; y < GRID_D; y++)
                 {
                     if (!grid(x,y))
                         continue;
@@ -145,7 +143,7 @@ uint8_t move_tiles(uint8_t direction)
                     // redraw_screen();
                     // _delay_ms(5000);
 
-                    for (int i = newY + 1; i < 4; i++)
+                    for (int i = newY + 1; i < GRID_D; i++)
                     {
                         if (grid(x,i))
                         {
@@ -163,10 +161,10 @@ uint8_t move_tiles(uint8_t direction)
             }
             break;
         case RIGHT:
-            for (int y = 0; y < 4; y++)
+            for (int y = 0; y < GRID_D; y++)
             {
-                int newX = 3;
-                for (int x = 3; x >= 0; x--)
+                int newX = GRID_D - 1;
+                for (int x = GRID_D - 1; x >= 0; x--)
                 {
                     if (!grid(x,y))
                         continue;
@@ -197,10 +195,10 @@ uint8_t move_tiles(uint8_t direction)
             }
             break;
         case DOWN:
-            for (int x = 0; x < 4; x++)
+            for (int x = 0; x < GRID_D; x++)
             {
-                int newY = 3;
-                for (int y = 3; y >= 0; y--)
+                int newY = GRID_D - 1;
+                for (int y = GRID_D - 1; y >= 0; y--)
                 {
                     if (!grid(x,y))
                         continue;
@@ -231,10 +229,10 @@ uint8_t move_tiles(uint8_t direction)
             }
             break;
         case LEFT:
-            for (int y = 0; y < 4; y++)
+            for (int y = 0; y < GRID_D; y++)
             {
                 int newX = 0;
-                for (int x = 0; x < 4; x++)
+                for (int x = 0; x < GRID_D; x++)
                 {
                     if (!grid(x,y))
                         continue;
@@ -247,7 +245,7 @@ uint8_t move_tiles(uint8_t direction)
                     // redraw_screen();
                     // _delay_ms(5000);
 
-                    for (int i = newX + 1; i < 4; i++)
+                    for (int i = newX + 1; i < GRID_D; i++)
                     {
                         if (grid(i,y))
                         {
@@ -270,7 +268,25 @@ uint8_t move_tiles(uint8_t direction)
     return 1;   //Needs to be replaced with the number of tiles moved.
 }
 
-uint16_t getRandomInt()
+void add_tile()
 {
-    return rand() % 15;
+    uint8_t blankCount = 0;
+    for (int i = 0; i < GRID_LEN; i++)
+        for (int j = 0; j < GRID_LEN; j++)
+            if (!grid(i,j))
+                blankCount++;
+
+    if (blankCount == 0)
+        display_string_xy("Oops! Something went wrong...\n\tNo blank tiles found!", 0,0);
+
+    uint8_t r = rand() % blankCount;
+
+    blankCount = 0;
+    for (int i = 0; i < GRID_LEN; i++)
+        for (int j = 0; j < GRID_LEN; j++)
+            if (!grid(i,j) && r == blankCount++)
+            {
+                grid(i,j) = 2;      // TODO: Give this a small probability of being 4.
+                return;
+            }
 }
