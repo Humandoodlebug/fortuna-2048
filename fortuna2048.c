@@ -32,7 +32,7 @@ void init_grid()
     while(pos2 == pos1){pos2 = getRandomInt();} //Loop until 2 unique numbers
     grid[pos1] = 2;
     grid[pos2] = 2;
-    currentScore = 65535;
+    currentScore = 0;
 }
 
 uint16_t powI(uint16_t i, uint16_t j)
@@ -152,6 +152,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
+                                currentScore += grid(x, newY);
                                 grid(x,i) = 0;
                             }
                             break;
@@ -185,6 +186,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
+                                currentScore += grid(newX, y);
                                 grid(i,y) = 0;
                             }
                             break;
@@ -218,6 +220,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
+                                currentScore += grid(x, newY);
                                 grid(x,i) = 0;
                             }
                             break;
@@ -251,6 +254,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
+                                currentScore += grid(newX, y);
                                 grid(i,y) = 0;
                             }
                             break;
