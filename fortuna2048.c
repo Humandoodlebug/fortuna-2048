@@ -13,6 +13,19 @@
 #define GRID_D 4
 #define grid(x,y) (grid[GRID_D * (x) + (y)])
 
+/* Colour definitions RGB565 */
+#define COLOUR2     0x6B4D //Light Gray
+#define COLOUR4     0x5228 //Dark Gray
+#define COLOUR8     0xFB86 //Light Orange
+#define COLOUR16    0xC222 //Dark Orange
+#define COLOUR32    0xF248 //Light Red
+#define COLOUR64    0xE840 //Dark Red
+#define COLOUR128   0xFE6C
+#define COLOUR256   0xFE29
+#define COLOUR512   0xF5A6
+#define COLOUR1024  0xF542
+#define COLOUR2048  0xD4A0
+
 static uint16_t *grid;
 uint16_t currentScore;
 
@@ -97,10 +110,58 @@ void display_blocks()
 void draw_block(uint8_t x, uint8_t y, uint16_t v)
 {
     if(!v) return; //blocks with value 0 should not be displayed.
+
+    //Block color
+    uint16_t colour;
+    switch(v)
+    {
+        case 2:
+            colour = COLOUR2;
+            break;
+        case 4:
+            colour = COLOUR4;
+            break;
+        case 8:
+            colour = COLOUR8;
+            break;
+        case 16:
+            colour = COLOUR16;
+            break;
+        case 32:
+            colour = COLOUR32;
+            break;
+        case 64:
+            colour = COLOUR64;
+            break;
+        case 128:
+            colour = COLOUR128;
+            break;
+        case 256:
+            colour = COLOUR256;
+            break;
+        case 512:
+            colour = COLOUR512;
+            break;
+        case 1024:
+            colour = COLOUR1024;
+            break;
+        default:
+            colour = COLOUR2048;
+            break;
+    }
+
+    uint16_t left, right, top, bottom;
+    left = GRID_X + x * GRID_GAP + LINE_THICKNESS;
+    top = GRID_Y + y * GRID_GAP + LINE_THICKNESS;
+    right = left + GRID_CELL - 1;
+    bottom = top + GRID_CELL - 1; 
+    rectangle rect = {left, right, top, bottom};
+    fill_rectangle(rect, colour);
+    //Block text
     uint8_t l = int2strl(v);
     char str[l + 1];    //NUUUUUULLLLL
     int2str(v, str);
-    display_string_xy(str, getBlockTextX(x, l), getBlockTextY(y));
+    display_string_xy_coloured(str, getBlockTextX(x, l), getBlockTextY(y), WHITE, colour);
 }
 
 uint8_t int2strl(uint16_t i)
