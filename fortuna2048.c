@@ -150,6 +150,37 @@ uint8_t move_tiles(uint8_t direction)
             }
             break;
         case RIGHT:
+            for (int y = 0; y < 4; y++)
+            {
+                int newX = 3;
+                for (int x = 3; x >= 0; x--)
+                {
+                    if (!grid(x,y))
+                        continue;
+
+                    if (newX != x)
+                    {
+                        grid(newX, y) = grid(x,y);
+                        grid(x,y) = 0;
+                    }
+                    // redraw_screen();
+                    // _delay_ms(5000);
+
+                    for (int i = newX - 1; i >= 0; i--)
+                    {
+                        if (grid(i,y))
+                        {
+                            if (grid(i,y) == grid(newX,y))
+                            {
+                                grid(newX,y) += grid(i,y);
+                                grid(i,y) = 0;
+                            }
+                            break;
+                        }
+                    }
+                    newX--;
+                }
+            }
             break;
         case DOWN:
             for (int x = 0; x < 4; x++)
