@@ -12,7 +12,7 @@
 #define BUFFSIZE 256
 
 void init(void);
-uint16_t getRandomInt();
+void execute_move(uint8_t direction);
 
 void main(void) 
 {
@@ -27,26 +27,21 @@ void main(void)
     for (;;)
     {
         if (get_switch_press(_BV(SWN)))
-        {
-            move_tiles(UP);
-            redraw_screen();
-        }
-        if (get_switch_press(_BV(SWE)))
-        {
-            move_tiles(RIGHT);
-            redraw_screen();
-        }
-        if (get_switch_press(_BV(SWS)))
-        {
-            move_tiles(DOWN);
-            redraw_screen();
-        }
-        if (get_switch_press(_BV(SWW)))
-        {
-            move_tiles(LEFT);
-            redraw_screen();
-        }
+            execute_move(UP);
+        else if (get_switch_press(_BV(SWE)))
+            execute_move(RIGHT);
+        else if (get_switch_press(_BV(SWS)))
+            execute_move(DOWN);
+        else if (get_switch_press(_BV(SWW)))
+            execute_move(LEFT);
     }
+}
+
+void execute_move(uint8_t direction)
+{
+    move_tiles(direction);
+    add_tile();
+    redraw_screen();
 }
 
 
