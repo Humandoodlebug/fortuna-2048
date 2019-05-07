@@ -22,6 +22,24 @@ uint16_t powI(uint16_t i, uint16_t j)
     return v;
 }
 
+void display_start_screen()
+{
+    display_string_xy("\n",0,50);
+    display_string("  ______         _                     \n");
+    display_string(" |  ____|       | |                    \n");
+    display_string(" | |__ ___  _ __| |_ _   _ _ __   __ _ \n");
+    display_string(" |  __/ _ \\| '__| __| | | | '_ \\ / _` |\n");
+    display_string(" | | | (_) | |  | |_| |_| | | | | (_| |\n");
+    display_string(" |_|  \\___/|_|   \\__|\\__,_|_| |_|\\__,_|\n");
+    display_string("         ___   ___  _  _   ___         \n");   
+    display_string("        |__ \\ / _ \\| || | / _ \\        \n");   
+    display_string("           ) | | | | || || (_) |       \n");   
+    display_string("          / /| | | |__   _> _ <        \n");   
+    display_string("         / /_| |_| |  | || (_) |       \n");   
+    display_string("        |____|\\___/   |_| \\___/        \n");   
+    display_string("\n          Press Center to Start");
+}
+
 void display_grid(grid2048 grid)
 {
     for (uint16_t y = 0; y < 5; y++)

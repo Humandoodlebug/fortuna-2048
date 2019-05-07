@@ -17,6 +17,7 @@ uint16_t getRandomInt();
 void main(void) 
 {
     init();
+    display_start_screen();
     unsigned int seed = 0;
     while(!get_switch_press(_BV(SWC)))
         seed++;
