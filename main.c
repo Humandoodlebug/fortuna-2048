@@ -17,15 +17,21 @@ void execute_move(uint8_t direction);
 void main(void) 
 {
     init();
+    start:
     display_start_screen();
     unsigned int seed = 0;
+    clear_switches();
     while(!get_switch_press(_BV(SWC)))
         seed++;
     srand(seed);
     init_grid();
     redraw_screen();
+    clear_switches();
     for (;;)
     {
+        if (!can_move())
+            goto start;
+
         if (get_switch_press(_BV(SWN)))
             execute_move(UP);
         else if (get_switch_press(_BV(SWE)))
@@ -39,9 +45,12 @@ void main(void)
 
 void execute_move(uint8_t direction)
 {
-    move_tiles(direction);
-    add_tile();
-    redraw_screen();
+    if (move_tiles(direction))
+    {
+        add_tile();
+        redraw_screen();
+    }
+    clear_switches();
 }
 
 
@@ -55,4 +64,13 @@ void init(void)
     os_init_scheduler();
     os_init_ruota();
     sei();
+}
+
+void clear_switches()
+{
+    while (get_switch_press(_BV(SWN)));
+    while (get_switch_press(_BV(SWE)));
+    while (get_switch_press(_BV(SWS)));
+    while (get_switch_press(_BV(SWW)));
+    while (get_switch_press(_BV(SWC)));
 }
