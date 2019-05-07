@@ -159,7 +159,7 @@ void draw_block(uint8_t x, uint8_t y, uint16_t v)
     uint8_t l = int2strl(v);
     char str[l + 1];    //NUUUUUULLLLL
     int2str(v, str);
-    display_string_xy(str, getBlockTextX(x, l), getBlockTextY(y));
+    display_string_xy_coloured(str, getBlockTextX(x, l), getBlockTextY(y), WHITE, colour);
 }
 
 uint8_t int2strl(uint16_t i)

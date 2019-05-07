@@ -246,6 +246,17 @@ void display_line(char *str)
     display.y += 8;
 }
 
+void display_string_xy_coloured(char *str, uint16_t x, uint16_t y, uint16_t fg, uint16_t bg)
+{
+    uint16_t oldFG = display.foreground;
+    uint16_t oldBG = display.background;
+    display.foreground = fg;
+    display.background = bg;
+    display_string_xy(str, x, y);
+    display.foreground = oldFG;
+    display.background = oldBG;
+}
+
 void display_string_xy(char *str, uint16_t x, uint16_t y)
 {
     uint8_t i;
