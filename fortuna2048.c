@@ -14,7 +14,9 @@
 #define grid(x,y) (grid[GRID_D * (x) + (y)])
 
 static uint16_t *grid;
+uint16_t currentScore;
 
+void display_score();
 void display_grid();
 void display_blocks();
 void draw_block(uint8_t x, uint8_t y, uint16_t v);
@@ -28,6 +30,7 @@ void init_grid()
     grid = calloc(GRID_LEN, sizeof(uint16_t));
     add_tile();
     add_tile();
+    currentScore = 0;
 }
 
 uint16_t powI(uint16_t i, uint16_t j)
@@ -62,6 +65,15 @@ void redraw_screen()
     clear_screen();
     display_grid();
     display_blocks();
+    display_score();
+}
+
+void display_score()
+{
+    uint16_t scoreLength = int2strl(currentScore);
+    char scoreString[16 + scoreLength];
+    sprintf(scoreString, "Current Score: %u", currentScore);
+    display_string_xy(scoreString, 10, 10);
 }
 
 void display_grid()
@@ -138,6 +150,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
+                                currentScore += grid(x, newY);
                                 grid(x,i) = 0;
                             }
                             break;
@@ -171,6 +184,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
+                                currentScore += grid(newX, y);
                                 grid(i,y) = 0;
                             }
                             break;
@@ -204,6 +218,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
+                                currentScore += grid(x, newY);
                                 grid(x,i) = 0;
                             }
                             break;
@@ -237,6 +252,7 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
+                                currentScore += grid(newX, y);
                                 grid(i,y) = 0;
                             }
                             break;
