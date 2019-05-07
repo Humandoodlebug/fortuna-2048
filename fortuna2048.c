@@ -12,7 +12,9 @@
 #define grid(x,y) (grid[4 * (x) + (y)])
 
 static uint16_t *grid;
+uint16_t currentScore;
 
+void display_score();
 void display_grid();
 void display_blocks();
 void draw_block(uint8_t x, uint8_t y, uint16_t v);
@@ -30,6 +32,7 @@ void init_grid()
     while(pos2 == pos1){pos2 = getRandomInt();} //Loop until 2 unique numbers
     grid[pos1] = 2;
     grid[pos2] = 2;
+    currentScore = 65535;
 }
 
 uint16_t powI(uint16_t i, uint16_t j)
@@ -64,6 +67,15 @@ void redraw_screen()
     clear_screen();
     display_grid();
     display_blocks();
+    display_score();
+}
+
+void display_score()
+{
+    uint16_t scoreLength = int2strl(currentScore);
+    char scoreString[16 + scoreLength];
+    sprintf(scoreString, "Current Score: %u", currentScore);
+    display_string_xy(scoreString, 10, 10);
 }
 
 void display_grid()
