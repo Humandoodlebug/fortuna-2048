@@ -29,7 +29,7 @@ void main(void)
     grid2048 grid = {{0}};
     grid.data[pos1] = 2;
     grid.data[pos2] = 2;
-    display_grid(grid);
+    redraw_screen(grid);
 }
 
 

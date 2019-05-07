@@ -8,6 +8,8 @@
 #define GRID_CELL 45
 #define GRID_GAP (GRID_CELL + LINE_THICKNESS)
 
+void display_grid();
+void display_blocks(grid2048);
 void draw_block(uint8_t x, uint8_t y, uint16_t v);
 uint8_t int2strl(uint16_t i);
 void int2str(uint16_t i, char *str);
@@ -41,14 +43,24 @@ void display_start_screen()
     display_line("          Press Center to Start");
 }
 
-void display_grid(grid2048 grid)
+void redraw_screen(grid2048 grid)
+{
+    clear_screen();
+    display_grid();
+    display_blocks(grid);
+}
+
+void display_grid()
 {
     for (uint16_t y = 0; y < 5; y++)
         display_line_h(GRID_X, GRID_Y + y * GRID_GAP, 190);
 
     for (uint16_t x = 0; x < 5; x++)
         display_line_v(GRID_X + x * GRID_GAP, GRID_Y, 190);
+}
 
+void display_blocks(grid2048 grid)
+{
     for (uint8_t i = 0; i < 4; i++)
         for (uint8_t j = 0; j < 4; j++)
             draw_block(j, i, grid.data[i * 4 + j]);
