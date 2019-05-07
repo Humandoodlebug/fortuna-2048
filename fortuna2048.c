@@ -3,11 +3,13 @@
 #include <math.h>
 #include <stdlib.h>
 #include "lcd.h"
+#include <util/delay.h>
 
 #define GRID_X 55
 #define GRID_Y 40
 #define GRID_CELL 45
 #define GRID_GAP (GRID_CELL + LINE_THICKNESS)
+#define grid(x,y) (*(grid + 4 * (x) + (y)))
 
 static uint16_t *grid;
 
@@ -26,8 +28,10 @@ void init_grid()
     uint16_t pos1 = getRandomInt();
     uint16_t pos2 = getRandomInt();
     while(pos2 == pos1){pos2 = getRandomInt();} //Loop until 2 unique numbers
-    grid[pos1] = 2;
-    grid[pos2] = 2;
+    for (uint16_t i = 0; i < 16; i++)
+        *(grid + i) = i;
+    *(grid + pos1) = 2;
+    *(grid + pos2) = 2;
 }
 
 uint16_t powI(uint16_t i, uint16_t j)
@@ -62,6 +66,10 @@ void redraw_screen()
     clear_screen();
     display_grid();
     display_blocks();
+    char temp[6];
+    int2str(grid(2,2), temp);
+    temp[5] = 'a';
+    display_string_xy(temp, 0, 0);
 }
 
 void display_grid()
@@ -77,14 +85,14 @@ void display_blocks()
 {
     for (uint8_t i = 0; i < 4; i++)
         for (uint8_t j = 0; j < 4; j++)
-            draw_block(j, i, grid[i * 4 + j]);
+            draw_block(i, j, grid(i, j));
 }
 
 void draw_block(uint8_t x, uint8_t y, uint16_t v)
 {
     if(v == 0){return;} //blocks with value 0 should not be displayed.
-    int l = int2strl(v);
-    char str[l];
+    uint8_t l = int2strl(v);
+    char str[l + 1];    //NUUUUUULLLLL
     int2str(v, str);
     display_string_xy(str, getBlockTextX(x, l), getBlockTextY(y));
 }
@@ -109,30 +117,55 @@ uint16_t getBlockTextY(uint8_t y)
     return GRID_Y + (uint16_t) y * GRID_GAP + LINE_THICKNESS + (GRID_CELL - 7) / 2;
 }
 
-// void move_tiles(uint8_t direction)
-// {
-//     switch (direction)
-//     {
-//         case UP:
-//             for (int x = 0; x < 4; x++)
-//             {
-//                 int newY = 0;
-//                 for (int y = 0; y < 4; y++)
-//                 {
-//                     if 
-//                 }
-//             }
-//             break;
-//         case RIGHT:
-//             break;
-//         case DOWN:
-//             break;
-//         case LEFT:
-//             break;
-//         default:
-//             display_string_xy("Oops! Something went wrong...\n\tUnrecognised direction, integer was out of range!",0,0);
-//     }
-// }
+// Returns the number of tiles effected.
+uint8_t move_tiles(uint8_t direction)
+{
+    switch (direction)
+    {
+        case UP:
+            for (int x = 0; x < 4; x++)
+            {
+                int newY = 0;
+                for (int y = 0; y < 4; y++)
+                {
+                    if (!grid(x,y))
+                        continue;
+
+                    if (newY != y)
+                    {
+                        grid(x,newY) = grid(x,y);
+                        grid(x,y) = 0;
+                    }
+                    // redraw_screen();
+                    // _delay_ms(5000);
+
+                    for (int i = newY + 1; i < 4; i++)
+                    {
+                        if (grid(x,i))
+                        {
+                            if (grid(x,i) == grid(x,newY))
+                            {
+                                grid(x,newY) += grid(x,i);
+                                grid(x,i) = 0;
+                            }
+                            break;
+                        }
+                    }
+                    newY++;
+                }
+            }
+            break;
+        case RIGHT:
+            break;
+        case DOWN:
+            break;
+        case LEFT:
+            break;
+        default:
+            display_string_xy("Oops! Something went wrong...\n\tUnrecognised direction, integer was out of range!",0,0);
+    }
+    return 1;   //Needs to be replaced with the number of tiles moved.
+}
 
 uint16_t getRandomInt()
 {
