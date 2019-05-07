@@ -13,5 +13,6 @@ void display_start_screen();
 void redraw_screen();
 uint8_t move_tiles(uint8_t direction);
 void init_grid();
+void add_tile();
 
 #endif
