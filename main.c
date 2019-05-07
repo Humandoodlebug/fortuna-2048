@@ -12,6 +12,7 @@
 #define BUFFSIZE 256
 
 void init(void);
+void clear_switches();
 void execute_move(uint8_t direction);
 
 void main(void) 
@@ -25,7 +26,7 @@ void main(void)
         seed++;
     srand(seed);
     init_grid();
-    redraw_screen();
+    draw_screen();
     clear_switches();
     for (;;)
     {

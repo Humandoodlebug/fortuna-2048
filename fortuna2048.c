@@ -75,10 +75,17 @@ void display_start_screen()
     display_line("          Press Center to Start");
 }
 
-void redraw_screen()
+void draw_screen()
 {
     clear_screen();
     display_grid();
+    redraw_screen();
+}
+
+void redraw_screen()
+{
+    // clear_screen();
+    // display_grid();
     display_blocks();
     display_score();
 }
@@ -109,12 +116,13 @@ void display_blocks()
 
 void draw_block(uint8_t x, uint8_t y, uint16_t v)
 {
-    if(!v) return; //blocks with value 0 should not be displayed.
-
     //Block color
     uint16_t colour;
     switch(v)
     {
+        case 0:
+            colour = BLACK;
+            break;
         case 2:
             colour = COLOUR2;
             break;
@@ -161,7 +169,10 @@ void draw_block(uint8_t x, uint8_t y, uint16_t v)
     uint8_t l = int2strl(v);
     char str[l + 1];    //NUUUUUULLLLL
     int2str(v, str);
-    display_string_xy_coloured(str, getBlockTextX(x, l), getBlockTextY(y), WHITE, colour);
+    if(v) //No text if 0 block
+    {
+        display_string_xy_coloured(str, getBlockTextX(x, l), getBlockTextY(y), WHITE, colour);
+    }
 }
 
 uint8_t int2strl(uint16_t i)
