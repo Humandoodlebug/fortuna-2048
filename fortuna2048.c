@@ -84,7 +84,7 @@ void display_blocks()
 
 void draw_block(uint8_t x, uint8_t y, uint16_t v)
 {
-    if(v == 0){return;} //blocks with value 0 should not be displayed.
+    if(!v) return; //blocks with value 0 should not be displayed.
     uint8_t l = int2strl(v);
     char str[l + 1];    //NUUUUUULLLLL
     int2str(v, str);
@@ -152,6 +152,37 @@ uint8_t move_tiles(uint8_t direction)
         case RIGHT:
             break;
         case DOWN:
+            for (int x = 0; x < 4; x++)
+            {
+                int newY = 3;
+                for (int y = 3; y >= 0; y--)
+                {
+                    if (!grid(x,y))
+                        continue;
+
+                    if (newY != y)
+                    {
+                        grid(x,newY) = grid(x,y);
+                        grid(x,y) = 0;
+                    }
+                    // redraw_screen();
+                    // _delay_ms(5000);
+
+                    for (int i = newY - 1; i >= 0; i--)
+                    {
+                        if (grid(x,i))
+                        {
+                            if (grid(x,i) == grid(x,newY))
+                            {
+                                grid(x,newY) += grid(x,i);
+                                grid(x,i) = 0;
+                            }
+                            break;
+                        }
+                    }
+                    newY--;
+                }
+            }
             break;
         case LEFT:
             for (int y = 0; y < 4; y++)
