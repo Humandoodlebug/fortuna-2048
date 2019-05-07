@@ -24,6 +24,29 @@ void main(void)
     srand(seed);
     init_grid();
     redraw_screen();
+    for (;;)
+    {
+        if (get_switch_press(_BV(SWN)))
+        {
+            move_tiles(UP);
+            redraw_screen();
+        }
+        if (get_switch_press(_BV(SWE)))
+        {
+            move_tiles(RIGHT);
+            redraw_screen();
+        }
+        if (get_switch_press(_BV(SWS)))
+        {
+            move_tiles(DOWN);
+            redraw_screen();
+        }
+        if (get_switch_press(_BV(SWW)))
+        {
+            move_tiles(LEFT);
+            redraw_screen();
+        }
+    }
 }
 
 
