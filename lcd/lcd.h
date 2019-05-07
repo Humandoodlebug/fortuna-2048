@@ -1,14 +1,19 @@
-/*  Author: Steve Gunn
+/*  Original Author: Steve Gunn
+ *	Adapted by Samuel Collins & Bradley Garrod (2019)
  * Licence: This work is licensed under the Creative Commons Attribution License.
  *           View this license at http://creativecommons.org/about/licenses/
  */
+
+#ifndef _INC_LCD
+#define _INC_LCD
  
 #include <avr/io.h>
 #include <stdint.h>
 
 
-#define LCDWIDTH	240
-#define LCDHEIGHT	320
+#define LCDWIDTH        240
+#define LCDHEIGHT       320
+#define LINE_THICKNESS 	2
 
 /* Colour definitions RGB565 */
 #define WHITE       0xFFFF
@@ -45,5 +50,10 @@ void fill_rectangle(rectangle r, uint16_t col);
 void fill_rectangle_indexed(rectangle r, uint16_t* col);
 void display_char(char c);
 void display_string(char *str);
+void display_line(char *str);
 void display_string_xy(char *str, uint16_t x, uint16_t y);
 void display_register(uint8_t reg);
+void display_line_h(uint16_t x, uint16_t y, uint16_t length);
+void display_line_v(uint16_t x, uint16_t y, uint16_t length);
+
+#endif

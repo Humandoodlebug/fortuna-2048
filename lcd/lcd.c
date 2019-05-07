@@ -1,4 +1,5 @@
-/*  Author: Steve Gunn
+/*  Original Author: Steve Gunn
+ *	Adapted by Samuel Collins & Bradley Garrod (2019)
  * Licence: This work is licensed under the Creative Commons Attribution License.
  *           View this license at http://creativecommons.org/about/licenses/
  *
@@ -202,7 +203,6 @@ void display_char(char c)
     */
     if (c == '\n') { 
         display.x=0; display.y+=8;
-        if (display.y >= display.height) { clear_screen(); }
         return;
     }
 
@@ -228,7 +228,7 @@ void display_char(char c)
         write_data16(display.background);
 
     display.x += 6;
-    if (display.x >= display.width) { display.x=0; display.y+=8; }
+    // if (display.x >= display.width) { display.x=0; display.y+=8; }
 }
 
 void display_string(char *str)
@@ -236,6 +236,14 @@ void display_string(char *str)
     uint8_t i;
     for(i=0; str[i]; i++) 
         display_char(str[i]);
+}
+
+void display_line(char *str)
+{
+    uint16_t x = display.x;
+    display_string(str);
+    display.x = x;
+    display.y += 8;
 }
 
 void display_string_xy(char *str, uint16_t x, uint16_t y)
@@ -260,3 +268,14 @@ void display_register(uint8_t reg)
 	}
 }
 
+void display_line_h(uint16_t x, uint16_t y, uint16_t length)
+{
+    rectangle rect = {x, x + length - 1, y, y + LINE_THICKNESS - 1};
+    fill_rectangle(rect, WHITE);
+}
+
+void display_line_v(uint16_t x, uint16_t y, uint16_t length)
+{
+    rectangle rect = {x, x + LINE_THICKNESS - 1, y, y + length - 1};
+    fill_rectangle(rect, WHITE);
+}
