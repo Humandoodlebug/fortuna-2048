@@ -21,15 +21,9 @@ void main(void)
     unsigned int seed = 0;
     while(!get_switch_press(_BV(SWC)))
         seed++;
-
     srand(seed);
-    uint16_t pos1 = getRandomInt();
-    uint16_t pos2 = getRandomInt();
-    while(pos2 == pos1){pos2 = getRandomInt();} //Loop until 2 unique numbers
-    grid2048 grid = {{0}};
-    grid.data[pos1] = 2;
-    grid.data[pos2] = 2;
-    redraw_screen(grid);
+    init_grid();
+    redraw_screen();
 }
 
 
@@ -43,9 +37,4 @@ void init(void)
     os_init_scheduler();
     os_init_ruota();
     sei();
-}
-
-uint16_t getRandomInt()
-{
-    return rand() % 15;
 }
