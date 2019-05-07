@@ -154,6 +154,37 @@ uint8_t move_tiles(uint8_t direction)
         case DOWN:
             break;
         case LEFT:
+            for (int y = 0; y < 4; y++)
+            {
+                int newX = 0;
+                for (int x = 0; x < 4; x++)
+                {
+                    if (!grid(x,y))
+                        continue;
+
+                    if (newX != x)
+                    {
+                        grid(newX, y) = grid(x,y);
+                        grid(x,y) = 0;
+                    }
+                    // redraw_screen();
+                    // _delay_ms(5000);
+
+                    for (int i = newX + 1; i < 4; i++)
+                    {
+                        if (grid(i,y))
+                        {
+                            if (grid(i,y) == grid(newX,y))
+                            {
+                                grid(newX,y) += grid(i,y);
+                                grid(i,y) = 0;
+                            }
+                            break;
+                        }
+                    }
+                    newX++;
+                }
+            }
             break;
         default:
             display_string_xy("Oops! Something went wrong...\n\tUnrecognised direction, integer was out of range!",0,0);
