@@ -43,6 +43,8 @@ uint16_t powI(uint16_t i, uint16_t j)
 
 void display_start_screen()
 {
+    clear_screen();
+
     display_string_xy("",40,60);
     display_line("  ______         _                     ");
     display_line(" |  ____|       | |                    ");
@@ -124,6 +126,7 @@ uint16_t getBlockTextY(uint8_t y)
 // Returns the number of tiles effected.
 uint8_t move_tiles(uint8_t direction)
 {
+    uint8_t moved = 0;
     switch (direction)
     {
         case UP:
@@ -139,6 +142,7 @@ uint8_t move_tiles(uint8_t direction)
                     {
                         grid(x,newY) = grid(x,y);
                         grid(x,y) = 0;
+                        moved++;
                     }
                     // redraw_screen();
                     // _delay_ms(5000);
@@ -152,6 +156,7 @@ uint8_t move_tiles(uint8_t direction)
                                 grid(x,newY) += grid(x,i);
                                 currentScore += grid(x, newY);
                                 grid(x,i) = 0;
+                                moved++;
                             }
                             break;
                         }
@@ -173,6 +178,7 @@ uint8_t move_tiles(uint8_t direction)
                     {
                         grid(newX, y) = grid(x,y);
                         grid(x,y) = 0;
+                        moved++;
                     }
                     // redraw_screen();
                     // _delay_ms(5000);
@@ -186,6 +192,7 @@ uint8_t move_tiles(uint8_t direction)
                                 grid(newX,y) += grid(i,y);
                                 currentScore += grid(newX, y);
                                 grid(i,y) = 0;
+                                moved++;
                             }
                             break;
                         }
@@ -207,6 +214,7 @@ uint8_t move_tiles(uint8_t direction)
                     {
                         grid(x,newY) = grid(x,y);
                         grid(x,y) = 0;
+                        moved++;
                     }
                     // redraw_screen();
                     // _delay_ms(5000);
@@ -220,6 +228,7 @@ uint8_t move_tiles(uint8_t direction)
                                 grid(x,newY) += grid(x,i);
                                 currentScore += grid(x, newY);
                                 grid(x,i) = 0;
+                                moved++;
                             }
                             break;
                         }
@@ -241,6 +250,7 @@ uint8_t move_tiles(uint8_t direction)
                     {
                         grid(newX, y) = grid(x,y);
                         grid(x,y) = 0;
+                        moved++;
                     }
                     // redraw_screen();
                     // _delay_ms(5000);
@@ -254,6 +264,7 @@ uint8_t move_tiles(uint8_t direction)
                                 grid(newX,y) += grid(i,y);
                                 currentScore += grid(newX, y);
                                 grid(i,y) = 0;
+                                moved++;
                             }
                             break;
                         }
@@ -265,7 +276,7 @@ uint8_t move_tiles(uint8_t direction)
         default:
             display_string_xy("Oops! Something went wrong...\n\tUnrecognised direction, integer was out of range!",0,0);
     }
-    return 1;   //Needs to be replaced with the number of tiles moved.
+    return moved;
 }
 
 void add_tile()
@@ -289,4 +300,19 @@ void add_tile()
                 grid(i,j) = 2;      // TODO: Give this a small probability of being 4.
                 return;
             }
+}
+
+uint8_t can_move()
+{
+    for (uint8_t i = 0; i < GRID_D; i++)
+        for (uint8_t j = 0; j < GRID_D; j++)
+        {
+            if (!grid(i,j))
+                return 1;
+            if (i+1 < GRID_D && grid(i,j) == grid(i+1,j))
+                return 1;
+            if (j+1 < GRID_D && grid(i,j) == grid(i,j+1))
+                return 1;
+        }
+    return 0;
 }
