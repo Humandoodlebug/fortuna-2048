@@ -37,6 +37,7 @@ void display_grid(grid2048 grid)
 
 void draw_block(uint8_t x, uint8_t y, uint16_t v)
 {
+    if(v == 0){return;} //blocks with value 0 should not be displayed.
     int l = int2strl(v);
     char str[l];
     int2str(v, str);
