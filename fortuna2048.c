@@ -13,6 +13,19 @@
 #define GRID_D 4
 #define grid(x,y) (grid[GRID_D * (x) + (y)])
 
+/* Colour definitions RGB565 */
+#define COLOUR2     0x6B4D //Light Gray
+#define COLOUR4     0x5228 //Dark Gray
+#define COLOUR8     0xFB86 //Light Orange
+#define COLOUR16    0xC222 //Dark Orange
+#define COLOUR32    0xF248 //Light Red
+#define COLOUR64    0xE840 //Dark Red
+#define COLOUR128   0xFE6C
+#define COLOUR256   0xFE29
+#define COLOUR512   0xF5A6
+#define COLOUR1024  0xF542
+#define COLOUR2048  0xD4A0
+
 static uint16_t *grid;
 uint16_t currentScore;
 

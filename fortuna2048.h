@@ -4,10 +4,12 @@
 
 #include "lcd.h"
 
+/* Direction definitions */
 #define UP      0
 #define RIGHT   1
 #define DOWN    2
 #define LEFT    3
+
 
 void display_start_screen();
 void redraw_screen();
