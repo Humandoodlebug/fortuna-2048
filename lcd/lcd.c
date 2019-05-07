@@ -238,6 +238,14 @@ void display_string(char *str)
         display_char(str[i]);
 }
 
+void display_line(char *str)
+{
+    uint16_t x = display.x;
+    display_string(str);
+    display.x = x;
+    display.y += 8;
+}
+
 void display_string_xy(char *str, uint16_t x, uint16_t y)
 {
     uint8_t i;
