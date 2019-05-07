@@ -271,8 +271,8 @@ uint8_t move_tiles(uint8_t direction)
 void add_tile()
 {
     uint8_t blankCount = 0;
-    for (int i = 0; i < GRID_LEN; i++)
-        for (int j = 0; j < GRID_LEN; j++)
+    for (int i = 0; i < GRID_D; i++)
+        for (int j = 0; j < GRID_D; j++)
             if (!grid(i,j))
                 blankCount++;
 
@@ -282,8 +282,8 @@ void add_tile()
     uint8_t r = rand() % blankCount;
 
     blankCount = 0;
-    for (int i = 0; i < GRID_LEN; i++)
-        for (int j = 0; j < GRID_LEN; j++)
+    for (int i = 0; i < GRID_D; i++)
+        for (int j = 0; j < GRID_D; j++)
             if (!grid(i,j) && r == blankCount++)
             {
                 grid(i,j) = 2;      // TODO: Give this a small probability of being 4.
