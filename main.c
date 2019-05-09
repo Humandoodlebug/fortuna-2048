@@ -32,7 +32,10 @@ void main(void)
     for (;;)
     {
         if (!can_move())
+        {
+            save_highscore();
             goto start;
+        }
 
         if (get_switch_press(_BV(SWN)))
             execute_move(UP);

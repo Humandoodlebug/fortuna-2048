@@ -18,5 +18,6 @@ uint8_t move_tiles(uint8_t direction);
 void init_grid();
 void add_tile();
 uint8_t can_move();
+void save_highscore();
 
 #endif

@@ -4,7 +4,7 @@
 #include <avr/eeprom.h>
 #include <stdlib.h>
 #include "lcd.h"
-// #include <util/delay.h>
+#include <util/delay.h>
 
 #define GRID_X 65
 #define GRID_Y 40
@@ -429,4 +429,24 @@ uint8_t can_move()
                 return 1;
         }
     return 0;
+}
+
+void save_highscore()
+{
+    uint16_t read[3];
+    eeprom_read_block(&read, (const void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+    if (read[0] == 2048 && read[2] == 2048) //Check if corruption occurred
+    {
+        if(read[1] < currentScore)
+        {
+            read[1] = currentScore;
+            eeprom_update_block(&read,(void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+        }       
+    }
+    else
+    {
+        display_string_xy("Error saving highscore", 100, 10);
+        _delay_ms(5000); //5 second delay
+    }
+    
 }
