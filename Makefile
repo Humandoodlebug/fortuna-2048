@@ -43,13 +43,13 @@ OBJFILES     += $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(notdir $(CPPFILES)))
 upld: $(BUILD_DIR)/main.hex
 	$(info )
 	$(info =========== ${BOARD} =============)
-	dfu-programmer $(MCU) erase
-	dfu-programmer $(MCU) flash $(BUILD_DIR)/main.hex
-	dfu-programmer $(MCU) launch  # requires dfu-programmer >= v0.7.0
+	sudo dfu-programmer $(MCU) erase
+	sudo dfu-programmer $(MCU) flash $(BUILD_DIR)/main.hex
+	sudo dfu-programmer $(MCU) launch  # requires dfu-programmer >= v0.7.0
 
 prom: $(BUILD_DIR)/main.eep upld
 	$(info ======== EEPROM: ${BOARD} ========)
-	dfu-programmer $(MCU) flash-eeprom $(BUILD_DIR)/main.eep
+	sudo dfu-programmer $(MCU) flash-eeprom $(BUILD_DIR)/main.eep
 
 $(BUILD_DIR)/%.o: %.c Makefile | $(BUILD_DIR)
 	@avr-gcc $(CFLAGS) -MMD -MP -c $< -o $@
