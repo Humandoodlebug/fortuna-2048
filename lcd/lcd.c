@@ -45,8 +45,10 @@ void init_lcd()
     clear_screen();
     display.x = 0;
     display.y = 0;
-    display.background = BLACK;
-    display.foreground = WHITE;
+    // display.background = BLACK; //Default values
+    // display.foreground = WHITE;
+    display.background = WHITE;
+    display.foreground = BLACK;
     write_cmd(DISPLAY_ON);
     _delay_ms(50);
     write_cmd_data(TEARING_EFFECT_LINE_ON, 0x00);

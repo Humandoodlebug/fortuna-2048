@@ -15,17 +15,17 @@
 #define grid(x,y) (grid[GRID_D * (x) + (y)])
 
 /* Colour definitions RGB565 */
-#define COLOUR2     0x6B4D //Light Gray
-#define COLOUR4     0x5228 //Dark Gray
-#define COLOUR8     0xFB86 //Light Orange
-#define COLOUR16    0xC222 //Dark Orange
-#define COLOUR32    0xF248 //Light Red
-#define COLOUR64    0xE840 //Dark Red
-#define COLOUR128   0xFE6C
-#define COLOUR256   0xFE29
-#define COLOUR512   0xF5A6
-#define COLOUR1024  0xF542
-#define COLOUR2048  0xD4A0
+#define COLOUR2     0xEF3B //Original source: https://github.com/gabrielecirulli/2048/blob/master/style/main.css
+#define COLOUR4     0xEF19 //Converted using: http://www.barth-dev.de/online/rgb565-color-picker/
+#define COLOUR8     0xF58F
+#define COLOUR16    0xF4AC
+#define COLOUR32    0xF3EB 
+#define COLOUR64    0xF2E7 
+#define COLOUR128   0xEE6E
+#define COLOUR256   0xEE6C
+#define COLOUR512   0xEE4A
+#define COLOUR1024  0xEE27
+#define COLOUR2048  0xEE05
 
 //WARNING - No wear leveling is used!!!!!
 #define HIGHSCORE_LOCATION 500
@@ -123,17 +123,13 @@ void get_eeprom_highscore()
         read[2] = 2048;
         eeprom_update_block(&read,(void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
         highScore = 0;
-        display_string_xy("Updated EEPROM", 0, 0);
     }
 }
 
 void display_grid()
 {
-    for (uint16_t y = 0; y < 5; y++)
-        display_line_h(GRID_X, GRID_Y + y * GRID_GAP, 190);
-
-    for (uint16_t x = 0; x < 5; x++)
-        display_line_v(GRID_X + x * GRID_GAP, GRID_Y, 190);
+    rectangle rect = {GRID_X, GRID_X + 189, GRID_Y, GRID_Y + 189};
+    fill_rectangle(rect, 0xAC8F);
 }
 
 void display_blocks()
@@ -150,7 +146,7 @@ void draw_block(uint8_t x, uint8_t y, uint16_t v)
     switch(v)
     {
         case 0:
-            colour = BLACK;
+            colour = 0xDE57;
             break;
         case 2:
             colour = COLOUR2;
@@ -200,7 +196,7 @@ void draw_block(uint8_t x, uint8_t y, uint16_t v)
     int2str(v, str);
     if(v) //No text if 0 block
     {
-        display_string_xy_coloured(str, getBlockTextX(x, l), getBlockTextY(y), WHITE, colour);
+        display_string_xy_coloured(str, getBlockTextX(x, l), getBlockTextY(y), BLACK, colour);
     }
 }
 
