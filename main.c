@@ -4,15 +4,22 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
+#include <avr/eeprom.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "fortuna2048.h"
 #include "ruota.h"
 #include "rios.h"
 
 #define BUFFSIZE 256
+//WARNING - No wear leveling is used!!!!!
+#define HIGHSCORE_LOCATION 500
+
+uint16_t highScore;
 
 void init(void);
 void clear_switches();
+void get_highscore();
 void execute_move(uint8_t direction);
 
 void main(void) 
@@ -20,6 +27,7 @@ void main(void)
     init();
     start:
     display_start_screen();
+    get_highscore();
     unsigned int seed = 0;
     clear_switches();
     while(!get_switch_press(_BV(SWC)))
@@ -65,6 +73,24 @@ void init(void)
     os_init_scheduler();
     os_init_ruota();
     sei();
+}
+
+void get_highscore()
+{
+    uint16_t read[3];
+    eeprom_read_block((void *) &read, (const void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+    if (read[0] == 2048 && read[2] == 2048)
+    {
+        highScore = read[1];
+    }
+    else
+    {
+        //TODO: Write a 0 highscore to EEPROM
+        highScore = 0;
+    }
+    char str[20];
+    sprintf(str, "Highscore: %u", highScore);
+    display_string_xy(str,0,0);
 }
 
 void clear_switches()
