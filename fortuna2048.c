@@ -128,11 +128,8 @@ void get_eeprom_highscore()
 
 void display_grid()
 {
-    for (uint16_t y = 0; y < 5; y++)
-        display_line_h(GRID_X, GRID_Y + y * GRID_GAP, 190);
-
-    for (uint16_t x = 0; x < 5; x++)
-        display_line_v(GRID_X + x * GRID_GAP, GRID_Y, 190);
+    rectangle rect = {GRID_X, GRID_X + 190, GRID_Y, GRID_Y + 190};
+    fill_rectangle(rect, 0xAC8F);
 }
 
 void display_blocks()
@@ -149,7 +146,7 @@ void draw_block(uint8_t x, uint8_t y, uint16_t v)
     switch(v)
     {
         case 0:
-            colour = BLACK;
+            colour = 0xDE57;
             break;
         case 2:
             colour = COLOUR2;
