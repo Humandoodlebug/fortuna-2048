@@ -128,7 +128,7 @@ void get_eeprom_highscore()
 
 void display_grid()
 {
-    rectangle rect = {GRID_X, GRID_X + 190, GRID_Y, GRID_Y + 190};
+    rectangle rect = {GRID_X, GRID_X + 189, GRID_Y, GRID_Y + 189};
     fill_rectangle(rect, 0xAC8F);
 }
 
