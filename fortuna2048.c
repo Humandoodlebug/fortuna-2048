@@ -83,6 +83,54 @@ void display_start_screen()
     display_line("          Press Center to Start");
 }
 
+void display_game_over()
+{
+    display_string_xy("", 0, GRID_Y);
+    display_line("   _____   ");
+    display_line("  / ____|  ");
+    display_line(" | |  __   ");
+    display_line(" | | |_ |  ");
+    display_line(" | |__| |  ");
+    display_line("  \\__/\\_|  ");
+    display_line("    /  \\   ");
+    display_line("   / /\\ \\  ");
+    display_line("  / ____ \\ ");
+    display_line(" /_/  __\\_\\");
+    display_line(" |  \\/  |  ");
+    display_line(" | \\ \\/ |  ");
+    display_line(" | |\\/| |  ");
+    display_line(" | |  | |  ");
+    display_line(" |_|__|_|  ");
+    display_line(" |  ____|  ");
+    display_line(" | |__     ");
+    display_line(" |  __|    ");
+    display_line(" | |____   ");
+    display_line(" |______|  ");
+
+    display_string_xy("", GRID_X + 190, GRID_Y);
+    display_line("   ____");    
+    display_line("  / __ \\   ");
+    display_line(" | |  | |  ");
+    display_line(" | |  | |  ");
+    display_line(" | |__| |  ");
+    display_line(" _\\____/ __");
+    display_line(" \\ \\    / /");
+    display_line("  \\ \\  / / ");
+    display_line("   \\ \\/ /  ");
+    display_line("    \\  /   ");
+    display_line("  ___\\/_   ");
+    display_line(" |  ____|  ");
+    display_line(" | |__     ");
+    display_line(" |  __|    ");
+    display_line(" | |____   ");
+    display_line(" |______|  ");
+    display_line(" |  __ \\   ");
+    display_line(" | |__) |  ");
+    display_line(" |  _  /   ");
+    display_line(" | | \\ \\   ");
+    display_line(" |_|  \\_\\  ");
+}
+
 void draw_screen()
 {
     clear_screen();

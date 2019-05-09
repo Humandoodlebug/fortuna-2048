@@ -7,7 +7,8 @@
 #include <stdlib.h>
 #include "fortuna2048.h"
 #include "ruota.h"
-// #include "rios.h"
+#include "rios.h"
+#include <util/delay.h>
 
 #define BUFFSIZE 256
 
@@ -34,6 +35,8 @@ void main(void)
         if (!can_move())
         {
             save_highscore();
+            display_game_over();            
+            _delay_ms(5000);
             goto start;
         }
 

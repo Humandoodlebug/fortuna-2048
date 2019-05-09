@@ -12,6 +12,7 @@
 
 
 void display_start_screen();
+void display_game_over();
 void draw_screen();
 void redraw_screen();
 uint8_t move_tiles(uint8_t direction);
