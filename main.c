@@ -78,14 +78,17 @@ void init(void)
 void get_highscore()
 {
     uint16_t read[3];
-    eeprom_read_block((void *) &read, (const void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+    eeprom_read_block(&read, (const void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
     if (read[0] == 2048 && read[2] == 2048)
     {
         highScore = read[1];
     }
     else
     {
-        //TODO: Write a 0 highscore to EEPROM
+        read[0] = 2048;
+        read[1] = 0;
+        read[2] = 2048;
+        eeprom_update_block(&read,(void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
         highScore = 0;
     }
     char str[20];
