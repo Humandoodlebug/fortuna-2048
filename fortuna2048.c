@@ -40,6 +40,7 @@ void get_eeprom_highscore();
 void display_grid();
 void display_blocks();
 void draw_block(uint8_t x, uint8_t y, uint16_t v);
+void increase_score(uint16_t s);
 uint8_t int2strl(uint16_t i);
 void int2str(uint16_t i, char *str);
 uint16_t getBlockTextX(uint8_t x, uint8_t l);
@@ -254,7 +255,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
-                                currentScore += grid(x, newY);
+                                // currentScore += grid(x, newY);
+                                increase_score(grid(x, newY));
                                 grid(x,i) = 0;
                                 moved++;
                             }
@@ -290,7 +292,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
-                                currentScore += grid(newX, y);
+                                // currentScore += grid(newX, y);
+                                increase_score(grid(newX, y));
                                 grid(i,y) = 0;
                                 moved++;
                             }
@@ -326,7 +329,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
-                                currentScore += grid(x, newY);
+                                // currentScore += grid(x, newY);
+                                increase_score(grid(x, newY));
                                 grid(x,i) = 0;
                                 moved++;
                             }
@@ -362,7 +366,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
-                                currentScore += grid(newX, y);
+                                // currentScore += grid(newX, y);
+                                increase_score(grid(newX, y));
                                 grid(i,y) = 0;
                                 moved++;
                             }
@@ -377,6 +382,15 @@ uint8_t move_tiles(uint8_t direction)
             display_string_xy("Oops! Something went wrong...\n\tUnrecognised direction, integer was out of range!",0,0);
     }
     return moved;
+}
+
+void increase_score(uint16_t s)
+{
+    currentScore += s;
+    if(highScore < currentScore)
+    {
+        highScore = currentScore;
+    }
 }
 
 void add_tile()
