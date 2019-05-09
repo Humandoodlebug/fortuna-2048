@@ -30,3 +30,10 @@ Use the directional buttons to slide the tiles within the grid. If 2 tiles with 
 The goal is to produce a 2048 tile within the grid. The game is lost whenever you cannot make a move any longer. (Currently, the game will just continue past this point until you can no longer make a move)
 
 Your score is incremented by the value produced by a combination of tiles.
+
+## Screenshots
+
+<img src="readme-images/title-screen.jpg" width="400"/>
+<img src="readme-images/new-game.jpg" width="400"/>
+<img src="readme-images/mature-game.jpg" width="400"/>
+<img src="readme-images/game-over.jpg" width="400"/>
