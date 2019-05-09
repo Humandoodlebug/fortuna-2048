@@ -9,6 +9,8 @@ By Bradley Garrod (bjg1g17) & Samuel Collins (sdc1g17)
 - Steve Gunn for much of the display logic (`lcd.c`)
 - Peter Dannegger (danni@specs.de) for the ruota code (used for handling input).
 - Frank Vahid, Bailey Miller, and Tony Givargis for [RIOS](http://www.cs.ucr.edu/~vahid/rios/)
+- Gabriele Cirulli for creating [2048](https://github.com/gabrielecirulli/2048)
+- Thomas Barth for [RGB565 Color Picker](http://www.barth-dev.de/online/rgb565-color-picker/)
 
 ## Running the Game
 
