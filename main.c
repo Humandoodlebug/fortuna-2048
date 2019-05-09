@@ -10,7 +10,6 @@
 #include "rios.h"
 #include <util/delay.h>
 
-
 #define BUFFSIZE 256
 
 
@@ -70,7 +69,21 @@ void init(void)
     CLKPR = 0;
 
     init_lcd();
-    os_init_scheduler();
+    // os_init_scheduler();
+    /* Configure 8 bit Timer 0 for ISR  */
+	TCCR0A = _BV(COM0A1)    /* Clear OCA0A on Compare match, set on TOP */
+           | _BV(WGM01)		/* fast PWM mode */
+           | _BV(WGM00);
+
+    TCCR0B |= _BV(CS00)     
+            | _BV(CS01);   /* F_CPU/64, DS p.112 */
+
+
+    /* Interrupts at 488.3 Hz: FCPU/(510*N) with N=64, DS p.105 */  
+
+    TIMSK0 = _BV(TOIE0); /* enable overflow interrupt for T0, DS p.113  */
+    TCNT0 = 0;
+    OCR0A = 255;  /* LED full brightness */
     os_init_ruota();
     sei();
 }
