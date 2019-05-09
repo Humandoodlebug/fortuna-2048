@@ -1,9 +1,10 @@
 #include "fortuna2048.h"
 #include <stdio.h>
 #include <math.h>
+#include <avr/eeprom.h>
 #include <stdlib.h>
 #include "lcd.h"
-// #include <util/delay.h>
+#include <util/delay.h>
 
 #define GRID_X 65
 #define GRID_Y 40
@@ -26,13 +27,20 @@
 #define COLOUR1024  0xF542
 #define COLOUR2048  0xD4A0
 
+//WARNING - No wear leveling is used!!!!!
+#define HIGHSCORE_LOCATION 500
+
 static uint16_t *grid;
 uint16_t currentScore;
+uint16_t highScore;
+
 
 void display_score();
+void get_eeprom_highscore();
 void display_grid();
 void display_blocks();
 void draw_block(uint8_t x, uint8_t y, uint16_t v);
+void increase_score(uint16_t s);
 uint8_t int2strl(uint16_t i);
 void int2str(uint16_t i, char *str);
 uint16_t getBlockTextX(uint8_t x, uint8_t l);
@@ -79,13 +87,12 @@ void draw_screen()
 {
     clear_screen();
     display_grid();
+    get_eeprom_highscore();
     redraw_screen();
 }
 
 void redraw_screen()
 {
-    // clear_screen();
-    // display_grid();
     display_blocks();
     display_score();
 }
@@ -96,6 +103,28 @@ void display_score()
     char scoreString[16 + scoreLength];
     sprintf(scoreString, "Current Score: %u", currentScore);
     display_string_xy(scoreString, 10, 10);
+
+    sprintf(scoreString, "Highscore: %u", highScore);
+    display_string_xy(scoreString, 200, 10);
+}
+
+void get_eeprom_highscore()
+{
+    uint16_t read[3];
+    eeprom_read_block(&read, (const void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+    if (read[0] == 2048 && read[2] == 2048)
+    {
+        highScore = read[1];
+    }
+    else
+    {
+        read[0] = 2048;
+        read[1] = 0;
+        read[2] = 2048;
+        eeprom_update_block(&read,(void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+        highScore = 0;
+        display_string_xy("Updated EEPROM", 0, 0);
+    }
 }
 
 void display_grid()
@@ -226,7 +255,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
-                                currentScore += grid(x, newY);
+                                // currentScore += grid(x, newY);
+                                increase_score(grid(x, newY));
                                 grid(x,i) = 0;
                                 moved++;
                             }
@@ -262,7 +292,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
-                                currentScore += grid(newX, y);
+                                // currentScore += grid(newX, y);
+                                increase_score(grid(newX, y));
                                 grid(i,y) = 0;
                                 moved++;
                             }
@@ -298,7 +329,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(x,i) == grid(x,newY))
                             {
                                 grid(x,newY) += grid(x,i);
-                                currentScore += grid(x, newY);
+                                // currentScore += grid(x, newY);
+                                increase_score(grid(x, newY));
                                 grid(x,i) = 0;
                                 moved++;
                             }
@@ -334,7 +366,8 @@ uint8_t move_tiles(uint8_t direction)
                             if (grid(i,y) == grid(newX,y))
                             {
                                 grid(newX,y) += grid(i,y);
-                                currentScore += grid(newX, y);
+                                // currentScore += grid(newX, y);
+                                increase_score(grid(newX, y));
                                 grid(i,y) = 0;
                                 moved++;
                             }
@@ -349,6 +382,15 @@ uint8_t move_tiles(uint8_t direction)
             display_string_xy("Oops! Something went wrong...\n\tUnrecognised direction, integer was out of range!",0,0);
     }
     return moved;
+}
+
+void increase_score(uint16_t s)
+{
+    currentScore += s;
+    if(highScore < currentScore)
+    {
+        highScore = currentScore;
+    }
 }
 
 void add_tile()
@@ -389,4 +431,24 @@ uint8_t can_move()
                 return 1;
         }
     return 0;
+}
+
+void save_highscore()
+{
+    uint16_t read[3];
+    eeprom_read_block(&read, (const void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+    if (read[0] == 2048 && read[2] == 2048) //Check if corruption occurred
+    {
+        if(read[1] < currentScore)
+        {
+            read[1] = currentScore;
+            eeprom_update_block(&read,(void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+        }       
+    }
+    else
+    {
+        display_string_xy("Error saving highscore", 100, 10);
+        _delay_ms(5000); //5 second delay
+    }
+    
 }
