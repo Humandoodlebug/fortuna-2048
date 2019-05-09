@@ -411,7 +411,9 @@ void add_tile()
         for (int j = 0; j < GRID_D; j++)
             if (!grid(i,j) && r == blankCount++)
             {
-                grid(i,j) = 2;      // TODO: Give this a small probability of being 4.
+                if (rand() % 10 < 9)
+                    grid(i,j) = 2;
+                else grid(i,j) = 4;
                 return;
             }
 }

@@ -1,6 +1,4 @@
-# fortuna-2048
-Implementation of 2048 for the La Fortuna board, built for the Computer Systems 2 undergraduate module at the University of Southampton.
-a# Fortuna 2048
+# Fortuna 2048
 Implementation of the game 2048 for the La Fortuna board, built for the Computer Systems 2 undergraduate module at the University of Southampton.
 
 By Bradley Garrod (bjg1g17) & Samuel Collins (sdc1g17)
