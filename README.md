@@ -27,6 +27,6 @@ When you turn on your La Fortuna, you will be greeted by the 2048 logo. To begin
 
 Use the directional buttons to slide the tiles within the grid. If 2 tiles with the same value collide during a slide, they will combine to make a tile of twice the value.
 
-The goal is to produce a 2048 tile within the grid. The game is lost whenever you cannot make a move any longer.
+The goal is to produce a 2048 tile within the grid. The game is lost whenever you cannot make a move any longer. (Currently, the game will just continue past this point until you can no longer make a move)
 
 Your score is incremented by the value produced by a combination of tiles.
