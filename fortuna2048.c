@@ -1,6 +1,7 @@
 #include "fortuna2048.h"
 #include <stdio.h>
 #include <math.h>
+#include <avr/eeprom.h>
 #include <stdlib.h>
 #include "lcd.h"
 // #include <util/delay.h>
@@ -26,10 +27,16 @@
 #define COLOUR1024  0xF542
 #define COLOUR2048  0xD4A0
 
+//WARNING - No wear leveling is used!!!!!
+#define HIGHSCORE_LOCATION 500
+
 static uint16_t *grid;
 uint16_t currentScore;
+uint16_t highScore;
+
 
 void display_score();
+void get_eeprom_highscore();
 void display_grid();
 void display_blocks();
 void draw_block(uint8_t x, uint8_t y, uint16_t v);
@@ -79,13 +86,12 @@ void draw_screen()
 {
     clear_screen();
     display_grid();
+    get_eeprom_highscore();
     redraw_screen();
 }
 
 void redraw_screen()
 {
-    // clear_screen();
-    // display_grid();
     display_blocks();
     display_score();
 }
@@ -96,6 +102,28 @@ void display_score()
     char scoreString[16 + scoreLength];
     sprintf(scoreString, "Current Score: %u", currentScore);
     display_string_xy(scoreString, 10, 10);
+
+    sprintf(scoreString, "Highscore: %u", highScore);
+    display_string_xy(scoreString, 200, 10);
+}
+
+void get_eeprom_highscore()
+{
+    uint16_t read[3];
+    eeprom_read_block(&read, (const void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+    if (read[0] == 2048 && read[2] == 2048)
+    {
+        highScore = read[1];
+    }
+    else
+    {
+        read[0] = 2048;
+        read[1] = 0;
+        read[2] = 2048;
+        eeprom_update_block(&read,(void *) HIGHSCORE_LOCATION, 3 * sizeof(uint16_t));
+        highScore = 0;
+        display_string_xy("Updated EEPROM", 0, 0);
+    }
 }
 
 void display_grid()
